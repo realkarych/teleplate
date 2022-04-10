@@ -1,0 +1,4 @@
+aiogram
+aioredis
+asyncpg
+sqlalchemy

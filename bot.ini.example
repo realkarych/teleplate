@@ -1,0 +1,12 @@
+[tg_bot]
+token = TOKEN
+admin_id = ADMIN_ID
+use_redis = true/false
+
+[db]
+db_host = db
+db_name = demo
+db_user = someuser
+db_passwd = Y0ur$upeRS3cReTpA$$w0rd
+pgadmin_user = admin@admin.com
+pgadmin_passwd = 4RIDDLE7MISCHANCE4opaqueness1
