@@ -1,7 +1,5 @@
 [tg_bot]
 token = TOKEN
-admin_id = ADMIN_ID
-use_redis = true/false
 
 [db]
 db_host = db
