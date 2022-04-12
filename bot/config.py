@@ -13,7 +13,7 @@ class Bot:
 class DB:
     """DAO: Database config"""
     host: str
-    db_name: str
+    name: str
     user: str
     password: str
 
@@ -25,10 +25,10 @@ class Config:
     db: DB
 
 
-def load() -> Config:
+def load_config() -> Config:
     """Load and returns bot configuration data"""
 
-    config_file_path = os.path.dirname(os.path.abspath(__file__)) + "/bot.ini"
+    config_file_path = os.path.abspath(os.curdir) + "/bot.ini"
 
     # If developer wasn't created bot.ini configuration file, raising an exception
     if not os.path.exists(config_file_path):
@@ -48,7 +48,7 @@ def load() -> Config:
         ),
         db=DB(
             host=db["db_host"],
-            db_name=db["db_name"],
+            name=db["db_name"],
             user=db["db_user"],
             password=db["db_passwd"]
         )
