@@ -1,10 +1,8 @@
 [tg_bot]
-token = TOKEN
+token = secret_token_from_botfather
 
 [db]
-db_host = db
-db_name = demo
-db_user = someuser
-db_passwd = Y0ur$upeRS3cReTpA$$w0rd
-pgadmin_user = admin@admin.com
-pgadmin_passwd = 4RIDDLE7MISCHANCE4opaqueness1
+db_host = localhost
+db_name = teleplate
+db_user = db_owner
+db_passwd = p@ssw0rd

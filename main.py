@@ -1,32 +1,61 @@
 import asyncio
-import logging
+import types
 
 from aiogram import Bot, Dispatcher
-from aiogram.types import BotCommand
+from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.types.bot_command_scope import BotCommandScopeDefault
+from loguru import logger
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker
 
 from bot.config import Config, load_config
-from bot.services.database.base import Base
-from bot.core.handlers.new_user import register_commands
+from bot.core.handlers import new_user
+from bot.core.middlewares.throttling import ThrottlingMiddleware
+from bot.core.navigation.nav import Commands
 from bot.core.updates_worker import get_handled_updates_list
+from bot.services.database.base import Base
+from bot.services.schedule.scheduler import Scheduler
 
 
-async def set_bot_commands(bot: Bot):
-    commands = [
-        BotCommand(command="start", description="Начать")
-    ]
+class HandlersFactory:
+
+    def __init__(self, dp: Dispatcher) -> None:
+        self._dp = dp
+
+    def register(self, *handlers) -> None:
+        """Handlers registering. If `register_handlers()` wasn't implemented in handlers' module -> skipping module
+            with error message"""
+
+        for handler in handlers:
+
+            if isinstance(handler, types.ModuleType):
+                try:
+                    handler.register_handlers(self._dp)
+                except AttributeError as error:
+                    logger.error(f"register_handlers() method wasn't implemented in {str(error.obj)}")
+
+            else:
+                logger.error(f"{handler} from submitted args to `register_handlers()` is not a .py module")
+
+
+async def __set_bot_commands(bot: Bot) -> None:
+    """Create a commands' list (shortcuts) in Telegram bot menu"""
+
+    commands = [command().to_bot_command() for command in Commands]
     await bot.set_my_commands(commands, scope=BotCommandScopeDefault())
 
 
-async def main():
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",
-    )
+def __register_schedulers() -> None:
+    """Init schedulers by APScheduler singleton instance"""
+
+
+async def main() -> None:
+    """Method that starts app & polling"""
+
+    logger.add("bot.log", rotation="500 MB")
 
     config: Config = load_config()
+
     engine = create_async_engine(
         f"postgresql+asyncpg://{config.db.user}:{config.db.password}@{config.db.host}/{config.db.name}",
         future=True
@@ -34,19 +63,28 @@ async def main():
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
 
-    # expire_on_commit=False will prevent attributes from being expired
-    # after commit.
     async_sessionmaker = sessionmaker(
         engine, expire_on_commit=False, class_=AsyncSession
     )
+
+    storage = MemoryStorage()
     bot = Bot(config.bot.token, parse_mode="HTML")
-    # Providing db session-maker to handlers via bot instance
+
+    # Providing db session-maker to handlers via bot instance.
+    # In handler: `session = m.bot.get("db")`
     bot["db"] = async_sessionmaker
-    dp = Dispatcher(bot)
 
-    register_commands(dp)
+    dp = Dispatcher(bot, storage=storage)
 
-    await set_bot_commands(bot)
+    Scheduler()
+    __register_schedulers()
+    await __set_bot_commands(bot)
+
+    # Provide your handler-modules into `register(...)`
+    HandlersFactory(dp).register(new_user, )
+
+    # Setup all your middlewares here
+    dp.middleware.setup(ThrottlingMiddleware())
 
     try:
         await dp.start_polling(allowed_updates=get_handled_updates_list(dp))
@@ -55,7 +93,11 @@ async def main():
         await dp.storage.wait_closed()
         await bot.session.close()
 
+
 try:
     asyncio.run(main())
 except (KeyboardInterrupt, SystemExit):
-    logging.error("Bot stopped!")
+    """Log this is pointless"""
+
+except Exception as e:
+    logger.critical(str(e))
