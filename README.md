@@ -3,22 +3,29 @@
 It's a template for describing your project below:
 
 # Title
+
 ...
 
 ## Description
+
 ...
 
 ## Stack
+
 ...
 
 ## Installation
+
 ...
 
 ## Links
+
 ...
 
 ## Screenshots
+
 ...
 
 ## Credits
+
 - **App template:** https://github.com/devkarych
