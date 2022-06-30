@@ -6,7 +6,7 @@ from bot.services.database.users.scripts.user import UsersDB
 
 
 async def cmd_start(m: types.Message):
-    user = User(message=m)
+    user = User(user=m.from_user)
 
     session = UsersDB(db_session=m.bot.get("db"))
     await session.add_user(user)

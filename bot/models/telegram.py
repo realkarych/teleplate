@@ -1,13 +1,13 @@
 from dataclasses import dataclass
-from typing import Union
 
 from aiogram import types
 
 
 @dataclass
 class User:
-    def __init__(self, message: Union[types.Message, types.CallbackQuery]):
-        self.id: int = message.from_user.id
-        self.fullname: str = message.from_user.full_name
-        self.firstname: str = message.from_user.first_name
-        self.username: str = message.from_user.username
+    def __init__(self, user: types.User):
+        self.id: int = user.id
+        self.fullname: str = user.full_name
+        self.firstname: str = user.first_name
+        self.username: str = user.username
+
