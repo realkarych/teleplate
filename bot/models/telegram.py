@@ -10,4 +10,3 @@ class User:
         self.fullname: str = user.full_name
         self.firstname: str = user.first_name
         self.username: str = user.username
-

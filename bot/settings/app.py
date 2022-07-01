@@ -1,4 +1,5 @@
 from typing import Any, Dict, Optional
+
 from pydantic import PostgresDsn, RedisDsn, validator
 
 from bot.settings.base import BaseAppSettings

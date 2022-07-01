@@ -8,14 +8,14 @@ from loguru import logger
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker
 
-from bot.settings.app import AppSettings
 from bot.config import load_config
-from bot.core.handlers import new_user
 from bot.core import middlewares
+from bot.core.handlers import new_user
 from bot.core.navigation.nav import Commands
 from bot.core.updates_worker import get_handled_updates_list
 from bot.services.database.base import Base
 from bot.services.schedule.scheduler import Scheduler
+from bot.settings.app import AppSettings
 
 
 class HandlersFactory:
@@ -81,7 +81,7 @@ async def main() -> None:
     __register_schedulers()
     await __set_bot_commands(bot)
 
-    # Provide your handler-modules into `register(...)`
+    # TODO: Provide your handler-modules into `register(...) func`
     HandlersFactory(dp).register(new_user, )
 
     middlewares.setup(dp)

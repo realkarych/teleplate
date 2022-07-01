@@ -4,9 +4,12 @@
 
 1) Create repo by this template
 
-2) Configure bot settings:
-    - Remove .example from bot.ini.example
-    - Fill correct data into bot.ini
+2) Configure bot settings. Bot has 2 modes: **development**, **production**. On develop stage, use .env, on prod stage
+   use prod.env
+    - Remove .example from prod.env.example
+    - Fill correct data into prod.env
+    - If you use redis, add variables to prod.env | .env:
+      `redis_host`, `redis_port`, `redis_db`.
 
 3) Configure system:
     - Install postgreSQL, systemd, Python 3.10.x
@@ -26,22 +29,44 @@
     - `pip install -r requirements.txt`
     - `python main.py`
 
+**If you launched bot polling, and no errors occurred, after submitting /start command to your Bot, welcome message
+should be sent.**
+
+✔ **Well Done!**
+
 ## Default stack for Teleplate
 
-- Python 3.10.x
-- Aiogram 2.x
-- Aiogram MemoryStorage as temporary data storage (You can replace it with Redis)
-- PostgreSQL (SQLAlchemy + asyncpg + alembic)
-- Systemd (You can replace it with Docker)
-- Loguru as logging impl
-- APScheduler as fully async cron tasks manager (I use it in almost projects, and therefore decided to include it to
+- **Python 3.10.x**
+- **Aiogram 2.x**
+- Aiogram **MemoryStorage** as default temporary data storage You can replace it with **Redis**. The template is
+  configured for this
+- **PostgreSQL** (SQLAlchemy + asyncpg + alembic)
+- **Systemd** (You can replace it with Docker)
+- **Loguru** as logging impl
+- **APScheduler** as fully async cron tasks manager (I use it in almost projects, and therefore decided to include it to
   template too)
+- **Pydantic** as a tool for data parsing & validation.
 
 ## Architecture explanation
 
 - **main.py** - Just main.py. It loads configs, start polling, init all app services etc.
 - **Core** is a package with bot utils (keyboards, states etc.), Telegram listeners, handlers, middlewares, filters.
 - **Models** is a collection of your custom data structures & object mappers.
-- **Services** is an abstraction layer for db connection, api interfaces.
+- **Services** is an abstraction layer for db connections, API interfaces.
+- **Exceptions** is a storage for your custom exceptions.
+- **Settings** is a layer for app configurators.
 - **Misc** is a package for utils & scripts that didn't fall into any of the above categories.
-- **Systemd** contains .service file for launching bot on Unix.
+- **Systemd** contains .service file for launching bot on Unix servers by systemctl utility.
+
+## Q&A
+
+- *Where I should store commands, reply | inline markups?* — **In navigation layer. I gave you a sample of commands
+  storage, and you can do the same with markups.**
+- *How to add my handler's modules?* — **So easy. Go to handlers package and create your modules. You must realize
+  register_handlers() method that register all your message, callback_query and another handlers. DON'T forget submit
+  created modules to RegisterFactory in main.py**
+- *Where I should store messages?* — **In misc you should create a messages package with abstraction layer with texts &
+  integrated i18n if you need**
+
+**So, if you have any problems with template, feel free to open issues on GitHub or ping me in Telegram:
+https://t.me/karych**
