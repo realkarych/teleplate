@@ -11,7 +11,7 @@ from sqlalchemy.orm import sessionmaker
 from bot.settings.app import AppSettings
 from bot.config import load_config
 from bot.core.handlers import new_user
-from bot.core.middlewares.throttling import ThrottlingMiddleware
+from bot.core import middlewares
 from bot.core.navigation.nav import Commands
 from bot.core.updates_worker import get_handled_updates_list
 from bot.services.database.base import Base
@@ -84,8 +84,7 @@ async def main() -> None:
     # Provide your handler-modules into `register(...)`
     HandlersFactory(dp).register(new_user, )
 
-    # Setup all your middlewares here
-    dp.middleware.setup(ThrottlingMiddleware())
+    middlewares.setup(dp)
 
     try:
         await dp.start_polling(allowed_updates=get_handled_updates_list(dp))
