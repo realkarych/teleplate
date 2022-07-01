@@ -8,9 +8,10 @@ from loguru import logger
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker
 
-from bot.config import Config, load_config
+from bot.settings.app import AppSettings
+from bot.config import load_config
 from bot.core.handlers import new_user
-from bot.core.middlewares.throttling import ThrottlingMiddleware
+from bot.core import middlewares
 from bot.core.navigation.nav import Commands
 from bot.core.updates_worker import get_handled_updates_list
 from bot.services.database.base import Base
@@ -54,10 +55,10 @@ async def main() -> None:
 
     logger.add("bot.log", rotation="500 MB")
 
-    config: Config = load_config()
+    config: AppSettings = load_config()
 
     engine = create_async_engine(
-        f"postgresql+asyncpg://{config.db.user}:{config.db.password}@{config.db.host}/{config.db.name}",
+        config.postgresql_uri,
         future=True
     )
     async with engine.begin() as conn:
@@ -83,8 +84,7 @@ async def main() -> None:
     # Provide your handler-modules into `register(...)`
     HandlersFactory(dp).register(new_user, )
 
-    # Setup all your middlewares here
-    dp.middleware.setup(ThrottlingMiddleware())
+    middlewares.setup(dp)
 
     try:
         await dp.start_polling(allowed_updates=get_handled_updates_list(dp))
