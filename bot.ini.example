@@ -1,8 +1,0 @@
-[tg_bot]
-token = secret_token_from_botfather
-
-[db]
-db_host = localhost
-db_name = teleplate
-db_user = db_owner
-db_passwd = p@ssw0rd

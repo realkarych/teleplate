@@ -24,13 +24,13 @@ class AppSettings(BaseAppSettings):
             user=values.get("postgresql_username"),
             password=values.get("postgresql_password"),
             host=values.get("postgresql_host"),
-            port=values.get("postgresql_port"),
+            port=str(values.get("postgresql_port")),
             path=f"/{values.get('postgresql_name') or ''}",
         )
 
-    redis_host: Optional[str] = None
-    redis_port: Optional[int] = None
-    redis_db: Optional[int] = None
+    redis_host: Optional[str] = ""
+    redis_port: Optional[str] = ""
+    redis_db: Optional[str] = ""
     redis_uri: Optional[str] = None
 
     @validator("redis_uri", pre=True)
@@ -40,9 +40,10 @@ class AppSettings(BaseAppSettings):
         return RedisDsn.build(
             host=values.get("redis_host"),
             port=values.get("redis_port"),
-            path=f"/{values.get('redis_db') or ''}"
+            path=f'/{values.get("redis_db") or ""}',
+            scheme='redis'
         )
-    
+
     class Config:
         validate_assignment = True
 

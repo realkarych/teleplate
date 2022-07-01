@@ -27,9 +27,6 @@ _DEFAULT_RATE_LIMIT = 1
 
 
 class ThrottlingMiddleware(BaseMiddleware):
-    """
-    Simple middleware
-    """
 
     def __init__(self, limit=_DEFAULT_RATE_LIMIT, key_prefix='antiflood_'):
         self.rate_limit = limit
@@ -40,6 +37,7 @@ class ThrottlingMiddleware(BaseMiddleware):
         """
         This handler is called when dispatcher receives a message
         :param message:
+        :param data:
         """
         # Get current handler
         handler = current_handler.get()

@@ -69,7 +69,7 @@ async def main() -> None:
     )
 
     storage = MemoryStorage()
-    bot = Bot(config.bot.token, parse_mode="HTML")
+    bot = Bot(config.token, parse_mode=config.parse_mode)
 
     # Providing db session-maker to handlers via bot instance.
     # In handler: `session = m.bot.get("db")`
