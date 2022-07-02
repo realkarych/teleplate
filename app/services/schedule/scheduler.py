@@ -1,7 +1,7 @@
 import tzlocal
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
-from bot.models.types import Singleton
+from app.models.types import Singleton
 
 
 class Scheduler(metaclass=Singleton):

@@ -8,14 +8,14 @@ from loguru import logger
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker
 
-from bot.config import load_config
-from bot.core import middlewares
-from bot.core.handlers import new_user
-from bot.core.navigation.nav import Commands
-from bot.core.updates_worker import get_handled_updates_list
-from bot.services.database.base import Base
-from bot.services.schedule.scheduler import Scheduler
-from bot.settings.app import AppSettings
+from app.config import load_config
+from app.core import middlewares
+from app.core.handlers import new_user
+from app.core.navigation.nav import Commands
+from app.core.updates_worker import get_handled_updates_list
+from app.services.database.base import Base
+from app.services.schedule.scheduler import Scheduler
+from app.settings.app import AppSettings
 
 
 class HandlersFactory:
@@ -39,21 +39,21 @@ class HandlersFactory:
                 logger.error(f"{handler} from submitted args to `register_handlers()` is not a .py module")
 
 
-async def __set_bot_commands(bot: Bot) -> None:
-    """Create a commands' list (shortcuts) in Telegram bot menu"""
+async def _set_bot_commands(bot: Bot) -> None:
+    """Create a commands' list (shortcuts) in Telegram app menu"""
 
     commands = [command().to_bot_command() for command in Commands]
     await bot.set_my_commands(commands, scope=BotCommandScopeDefault())
 
 
-def __register_schedulers() -> None:
+def _register_schedulers() -> None:
     """Init schedulers by APScheduler singleton instance"""
 
 
 async def main() -> None:
     """Method that starts app & polling"""
 
-    logger.add("bot.log", rotation="500 MB")
+    logger.add("app.log", rotation="500 MB")
 
     config: AppSettings = load_config()
 
@@ -78,8 +78,8 @@ async def main() -> None:
     dp = Dispatcher(bot, storage=storage)
 
     Scheduler()
-    __register_schedulers()
-    await __set_bot_commands(bot)
+    _register_schedulers()
+    await _set_bot_commands(bot)
 
     # TODO: Provide your handler-modules into `register(...) func`
     HandlersFactory(dp).register(new_user, )

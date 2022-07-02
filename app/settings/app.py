@@ -2,7 +2,7 @@ from typing import Any, Dict, Optional
 
 from pydantic import PostgresDsn, RedisDsn, validator
 
-from bot.settings.base import BaseAppSettings
+from app.settings.base import BaseAppSettings
 
 
 class AppSettings(BaseAppSettings):

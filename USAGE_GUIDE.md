@@ -67,9 +67,12 @@ should be sent.**
   created modules to RegisterFactory in main.py**
 - *Where I should store messages?* — **In misc you should create a messages package with abstraction layer with texts &
   integrated i18n if you need**
-- *Why do you use Singleton? It's anti-pattern!* — **So, I used Singleton only with APScheduler. In my opinion, 
-instance of Scheduler in big project will be used in different separated services / in different parts of business-logic. 
-In this case, I preferred to put it in a separate service instantiates on app-start. That is, you can create tasks in any service without thinking about the connections between the services. Therefore, at this stage I believe that this is the best option.**
+- *Why do you use Singleton? It's anti-pattern!* — **So, I used Singleton only with APScheduler. In my opinion,
+  instance of Scheduler in big project will be used in different separated services / in different parts of
+  business-logic.
+  In this case, I preferred to put it in a separate service instantiates on app-start. That is, you can create tasks in
+  any service without thinking about the connections between the services. Therefore, at this stage I believe that this
+  is the best option.**
 
 **So, if you have any problems with template, feel free to open issues on GitHub or ping me in Telegram:
 https://t.me/karych.**

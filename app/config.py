@@ -1,10 +1,10 @@
 from functools import lru_cache
 from typing import Dict, Type
 
-from bot.settings.app import AppSettings
-from bot.settings.base import AppEnvTypes, BaseAppSettings
-from bot.settings.development import DevAppSettings
-from bot.settings.production import ProdAppSettings
+from app.settings.app import AppSettings
+from app.settings.base import AppEnvTypes, BaseAppSettings
+from app.settings.development import DevAppSettings
+from app.settings.production import ProdAppSettings
 
 environments: Dict[AppEnvTypes, Type[AppSettings]] = {
     AppEnvTypes.DEV: DevAppSettings,

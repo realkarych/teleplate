@@ -1,7 +1,7 @@
 from sqlalchemy import Column, BigInteger, String
 
-from bot.services.database.base import Base
-from bot.services.date_manager import get_current_date
+from app.services.database.base import Base
+from app.services.date_manager import get_current_date
 
 
 class User(Base):

@@ -3,8 +3,8 @@ from typing import Generator
 from sqlalchemy import select
 from sqlalchemy.orm import sessionmaker
 
-from bot.models.telegram import User
-from bot.services.database.users.models import User as DBUser
+from app.models.telegram import User
+from app.services.database.users.models import User as DBUser
 
 
 class UsersDB:

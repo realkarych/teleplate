@@ -1,6 +1,6 @@
 from aiogram import Dispatcher
 
-from bot.core.middlewares.throttling import ThrottlingMiddleware
+from app.core.middlewares.throttling import ThrottlingMiddleware
 
 
 def setup(dispatcher: Dispatcher):

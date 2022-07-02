@@ -2,6 +2,8 @@ from enum import Enum
 
 from pydantic import BaseSettings
 
+from app.settings.paths import get_project_root
+
 
 class AppEnvTypes(Enum):
     DEV = "dev"
@@ -13,4 +15,4 @@ class BaseAppSettings(BaseSettings):
     app_env: AppEnvTypes = AppEnvTypes.PROD
 
     class Config:
-        env_file = ".env"
+        env_file = f"{get_project_root()}/.env"

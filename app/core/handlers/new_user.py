@@ -1,9 +1,9 @@
 from aiogram import types, Dispatcher
 
-from bot.core.navigation.nav import Commands
-from bot.misc import messages as msgs
-from bot.models.telegram import User
-from bot.services.database.users.scripts.user import UsersDB
+from app.core.navigation.nav import Commands
+from app.messages import new_user as msgs
+from app.models.telegram import User
+from app.services.database.users.scripts.user import UsersDB
 
 
 async def cmd_start(m: types.Message):
