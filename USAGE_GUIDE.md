@@ -55,8 +55,11 @@ should be sent.**
 - **Services** is an abstraction layer for db connections, API interfaces.
 - **Exceptions** is a storage for your custom exceptions.
 - **Settings** is a layer for app configurators.
-- **Misc** is a package for utils & scripts that didn't fall into any of the above categories.
 - **Systemd** contains .service file for launching bot on Unix servers by systemctl utility.
+
+## Contributions
+**Feel free to contribute! But if you integrate new technologies, you are responsible for the 
+additions to the documentation (USAGE_GUIDE.md).**
 
 ## Q&A
 
@@ -70,8 +73,8 @@ should be sent.**
 - *Why do you use Singleton? It's anti-pattern!* — **So, I used Singleton only with APScheduler. In my opinion,
   instance of Scheduler in big project will be used in different separated services / in different parts of
   business-logic.
-  In this case, I preferred to put it in a separate service instantiates on app-start. That is, you can create tasks in
-  any service without thinking about the connections between the services. Therefore, at this stage I believe that this
+  In this case, I preferred to put scheduler in a separate service instantiates on app-start. That is, you can create tasks in
+  any services without thinking about the connections between the services. Therefore, at this stage I believe that this
   is the best option.**
 
 **So, if you have any problems with template, feel free to open issues on GitHub or ping me in Telegram:
