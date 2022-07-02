@@ -39,18 +39,19 @@ should be sent.**
 - **Python 3.10.x**
 - **Aiogram 2.x**
 - Aiogram **MemoryStorage** as default temporary data storage You can replace it with **Redis**. The template is
-  configured for this
-- **PostgreSQL** (SQLAlchemy + asyncpg + alembic)
-- **Systemd** (You can replace it with Docker)
-- **Loguru** as logging impl
-- **APScheduler** as fully async cron tasks manager (I use it in almost projects, and therefore decided to include it to
-  template too)
+  configured for this.
+- **PostgreSQL** (SQLAlchemy + asyncpg + alembic).
+- **Systemd** (You can replace it with Docker).
+- **Loguru** as logging impl.
+- **APScheduler** as fully async cron tasks manager (I use it in almost projects, and therefore decided to include it to.
+  template too).
 - **Pydantic** as a tool for data parsing & validation.
 
 ## Architecture explanation
 
 - **main.py** - Just main.py. It loads configs, start polling, init all app services etc.
 - **Core** is a package with bot utils (keyboards, states etc.), Telegram listeners, handlers, middlewares, filters.
+- **Messages** is a collection of modules with displaying in chat texts. In my opinion, store huge descriptions in handlers is quite stupid (code becomes unreadable, and different problems with i18n etc.)
 - **Models** is a collection of your custom data structures & object mappers.
 - **Services** is an abstraction layer for db connections, API interfaces.
 - **Exceptions** is a storage for your custom exceptions.
@@ -68,8 +69,6 @@ additions to the documentation (USAGE_GUIDE.md).**
 - *How to add my handler's modules?* — **So easy. Go to handlers package and create your modules. You must realize
   register_handlers() method that register all your message, callback_query and another handlers. DON'T forget submit
   created modules to RegisterFactory in main.py**
-- *Where I should store messages?* — **In misc you should create a messages package with abstraction layer with texts &
-  integrated i18n if you need**
 - *Why do you use Singleton? It's anti-pattern!* — **So, I used Singleton only with APScheduler. In my opinion,
   instance of Scheduler in big project will be used in different separated services / in different parts of
   business-logic.
