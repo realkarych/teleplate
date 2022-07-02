@@ -24,10 +24,10 @@
     - Open alembic.ini -> `sqlalchemy.url = postgresql+asyncpg://DB_OWNER:DB_OWNER_PASSWD@localhost/DB_NAME`
 
 5) Configure python-app & dependencies:
-    - `python3.10 -m venv env`
-    - `source env/bin/activate`
+    - `python3.10 -m venv venv`
+    - `source venv/bin/activate`
     - `pip install -r requirements.txt`
-    - `python main.py`
+    - Execute `__main__.py` script
 
 **If you launched bot polling, and no errors occurred, after submitting /start command to your Bot, welcome message
 should be sent.**
