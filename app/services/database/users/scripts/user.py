@@ -1,17 +1,13 @@
 from typing import Generator
 
 from sqlalchemy import select
-from sqlalchemy.orm import sessionmaker
 
 from app.models.telegram import User
+from app.services.database.base import DB
 from app.services.database.users.models import User as DBUser
 
 
-class UsersDB:
-
-    def __init__(self, db_session: sessionmaker):
-        self._session: sessionmaker = db_session
-        pass
+class UsersDB(DB):
 
     async def add_user(self, user: User) -> None:
         """Add new user to database"""
