@@ -1,5 +1,6 @@
+from abc import ABC
+
 from sqlalchemy.orm import declarative_base, sessionmaker
-from abc import ABC, abstractmethod
 
 Base = declarative_base()
 

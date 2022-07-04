@@ -43,7 +43,8 @@ should be sent.**
 - **PostgreSQL** (SQLAlchemy + asyncpg + alembic).
 - **Systemd** (You can replace it with Docker).
 - **Loguru** as logging impl.
-- **APScheduler** as fully async cron tasks manager (I use it in almost projects, and therefore decided to include it to.
+- **APScheduler** as fully async cron tasks manager (I use it in almost projects, and therefore decided to include it
+  to.
   template too).
 - **Pydantic** as a tool for data parsing & validation.
 
@@ -51,7 +52,8 @@ should be sent.**
 
 - **main.py** - Just main.py. It loads configs, start polling, init all app services etc.
 - **Core** is a package with bot utils (keyboards, states etc.), Telegram listeners, handlers, middlewares, filters.
-- **Messages** is a collection of modules with displaying in chat texts. In my opinion, store huge descriptions in handlers is quite stupid (code becomes unreadable, and different problems with i18n etc.)
+- **Messages** is a collection of modules with displaying in chat texts. In my opinion, store huge descriptions in
+  handlers is quite stupid (code becomes unreadable, and different problems with i18n etc.)
 - **Models** is a collection of your custom data structures & object mappers.
 - **Services** is an abstraction layer for db connections, API interfaces.
 - **Exceptions** is a storage for your custom exceptions.
@@ -59,7 +61,8 @@ should be sent.**
 - **Systemd** contains .service file for launching bot on Unix servers by systemctl utility.
 
 ## Contributions
-**Feel free to contribute! But if you integrate new technologies, you are responsible for the 
+
+**Feel free to contribute! But if you integrate new technologies, you are responsible for the
 additions to the documentation (USAGE_GUIDE.md).**
 
 ## Q&A
@@ -72,7 +75,8 @@ additions to the documentation (USAGE_GUIDE.md).**
 - *Why do you use Singleton? It's anti-pattern!* — **So, I used Singleton only with APScheduler. In my opinion,
   instance of Scheduler in big project will be used in different separated services / in different parts of
   business-logic.
-  In this case, I preferred to put scheduler in a separate service instantiates on app-start. That is, you can create tasks in
+  In this case, I preferred to put scheduler in a separate service instantiates on app-start. That is, you can create
+  tasks in
   any services without thinking about the connections between the services. Therefore, at this stage I believe that this
   is the best option.**
 

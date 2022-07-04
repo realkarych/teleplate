@@ -6,9 +6,9 @@ from app.services.database.base import Base
 class User(Base):
     """Implements base table contains all registered in bot users"""
 
-    __tablename__ = "tbl_users"
+    __tablename__ = "users"
 
-    user_id = Column(BigInteger, primary_key=True, unique=True, autoincrement=False)
+    user_id = Column(BigInteger, primary_key=True, unique=True, autoincrement=False)  # Unique Telegram user id
     username = Column(String, default=None)
     user_fullname = Column(String, default=None)
     user_firstname = Column(String, default=None)
