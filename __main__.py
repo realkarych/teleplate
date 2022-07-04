@@ -100,7 +100,5 @@ async def main() -> None:
 try:
     asyncio.run(main())
 except (KeyboardInterrupt, SystemExit):
-    """Log this is pointless"""
-
-except Exception as e:
-    logger.critical(str(e))
+    # Log this is pointless
+    pass

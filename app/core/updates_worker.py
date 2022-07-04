@@ -11,8 +11,9 @@ def get_handled_updates_list(dp: Dispatcher) -> list:
     available_updates = (
         "callback_query_handlers", "channel_post_handlers", "chat_member_handlers",
         "chosen_inline_result_handlers", "edited_channel_post_handlers", "edited_message_handlers",
-        "inline_query_handlers", "message_handlers", "my_chat_member_handlers", "poll_answer_handlers",
-        "poll_handlers", "pre_checkout_query_handlers", "shipping_query_handlers"
+        "inline_query_handlers", "message_handlers", "my_chat_member_handlers",
+        "poll_answer_handlers", "poll_handlers", "pre_checkout_query_handlers",
+        "shipping_query_handlers"
     )
     return [item.replace("_handlers", "") for item in available_updates
             if len(getattr(dp, item).handlers) > 0]

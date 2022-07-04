@@ -13,7 +13,9 @@ class UsersDB(DB):
         """Add new user to database"""
 
         async with self._session() as session:
-            await session.merge(DBUser(user_id=user.id, username=user.username, user_fullname=user.fullname,
+            await session.merge(DBUser(user_id=user.id,
+                                       username=user.username,
+                                       user_fullname=user.fullname,
                                        user_firstname=user.firstname))
             await session.commit()
 
