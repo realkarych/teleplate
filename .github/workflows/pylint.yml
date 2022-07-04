@@ -21,4 +21,4 @@ jobs:
           pip install -r requirements.txt
       - name: Analysing the code with pylint
         run: |
-          --disable=missing-docstring,too-few-public-methods,no-name-in-module,invalid-name,no-self-argument,super-with-arguments,unused-argument,raise-missing-from
+          pylint $(git ls-files '*.py') --disable=missing-docstring,too-few-public-methods,no-name-in-module,invalid-name,no-self-argument,super-with-arguments,unused-argument,raise-missing-from
