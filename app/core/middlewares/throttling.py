@@ -55,9 +55,9 @@ class ThrottlingMiddleware(BaseMiddleware):
         # Use Dispatcher.throttle method.
         try:
             await dispatcher.throttle(key, rate=limit)
-        except Throttled as t:
+        except Throttled as thr:
             # Execute action
-            await self.message_throttled(message, t)
+            await self.message_throttled(message, throttled=thr)
 
             # Cancel current handler
             raise CancelHandler()
@@ -68,14 +68,8 @@ class ThrottlingMiddleware(BaseMiddleware):
         :param message:
         :param throttled:
         """
-        handler = current_handler.get()
-        dispatcher = Dispatcher.get_current()
-        if handler:
-            key = getattr(handler, 'throttling_key', f"{self.prefix}_{handler.__name__}")
-        else:
-            key = f"{self.prefix}_message"
 
-        # Calculate how many time is left till the block ends
+        # Calculate how much time is left till the block ends
         delta = throttled.rate - throttled.delta
 
         # Prevent flooding

@@ -17,8 +17,10 @@ class Command:
 
 @unique
 class Commands(Enum):
-    """List of commands with public access. Do not implement here admin commands & specific commands (will be submitted
-    to Telegram menu list.)"""
+    """
+    List of commands with public access. Do not implement here admin commands & specific
+    commands (will be submitted to Telegram menu list.)
+    """
 
     start = Command(name='start', description='Start Bot')
 
