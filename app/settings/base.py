@@ -11,8 +11,12 @@ class AppEnvTypes(Enum):
 
 
 class BaseAppSettings(BaseSettings):
-    # TODO: Choose mode: development or production (DEV / PROD)
-    app_env: AppEnvTypes = AppEnvTypes.PROD
+    # Choose mode: development or production (DEV / PROD)
+    app_env: AppEnvTypes = None
+
+    def __init__(self, app_type: AppEnvTypes, **values):
+        super().__init__(**values)
+        self.app_env = app_type
 
     class Config:
         env_file = f"{get_project_root()}/.env"

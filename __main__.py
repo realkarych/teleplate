@@ -16,6 +16,7 @@ from app.core.updates_worker import get_handled_updates_list
 from app.services.database.base import Base
 from app.services.schedule.scheduler import Scheduler
 from app.settings.app import AppSettings
+from app.settings.base import AppEnvTypes
 
 
 class HandlersFactory:
@@ -24,8 +25,8 @@ class HandlersFactory:
         self._dp = dp
 
     def register(self, *handlers) -> None:
-        """Handlers registering. If `register_handlers()` wasn't implemented in handlers' module -> skipping module
-            with error message"""
+        """Handlers registering. If `register_handlers()` wasn't implemented in
+        handlers' module -> skipping module with error message"""
 
         for handler in handlers:
 
@@ -33,10 +34,12 @@ class HandlersFactory:
                 try:
                     handler.register_handlers(self._dp)
                 except AttributeError as error:
-                    logger.error(f"register_handlers() method wasn't implemented in {str(error.obj)}")
+                    logger.error(f"register_handlers() method wasn't implemented "
+                                 f"in {str(error.obj)}")
 
             else:
-                logger.error(f"{handler} from submitted args to `register_handlers()` is not a .py module")
+                logger.error(f"{handler} from submitted args to `register_handlers()` "
+                             f"is not a .py module")
 
 
 async def _set_bot_commands(bot: Bot) -> None:
@@ -55,7 +58,7 @@ async def main() -> None:
 
     logger.add("app.log", rotation="500 MB")
 
-    config: AppSettings = load_config()
+    config: AppSettings = load_config(app_type=AppEnvTypes.DEV)
 
     engine = create_async_engine(
         config.postgresql_uri,
@@ -81,7 +84,7 @@ async def main() -> None:
     _register_schedulers()
     await _set_bot_commands(bot)
 
-    # TODO: Provide your handler-modules into `register(...) func`
+    # Provide your handler-modules into `register(...) func`
     HandlersFactory(dp).register(new_user, )
 
     middlewares.setup(dp)

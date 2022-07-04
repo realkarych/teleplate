@@ -15,4 +15,4 @@ def get_handled_updates_list(dp: Dispatcher) -> list:
         "poll_handlers", "pre_checkout_query_handlers", "shipping_query_handlers"
     )
     return [item.replace("_handlers", "") for item in available_updates
-            if len(dp.__getattribute__(item).handlers) > 0]
+            if len(getattr(dp, item).handlers) > 0]

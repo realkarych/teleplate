@@ -13,8 +13,8 @@ environments: Dict[AppEnvTypes, Type[AppSettings]] = {
 
 
 @lru_cache
-def load_config() -> AppSettings:
+def load_config(app_type: AppEnvTypes) -> AppSettings:
     """Load and returns app settings"""
-    app_env = BaseAppSettings().app_env
+    app_env = BaseAppSettings(app_type=app_type).app_env
     config = environments[app_env]
-    return config()
+    return config(app_type=app_type)
