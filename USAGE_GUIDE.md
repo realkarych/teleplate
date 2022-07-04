@@ -5,10 +5,10 @@
 1) Create repo by this template
 
 2) Configure bot settings. Bot has 2 modes: **development**, **production**. On develop stage, use .env, on prod stage
-   use prod.env
-    - Remove .example from prod.env.example
-    - Fill correct data into prod.env
-    - If you use redis, add variables to prod.env | .env:
+   use prod.env. This modes added for effective development. In my case, I has a temporary test bot for development on local machine (configures in .env), and production bot that starts on server & configures in prod.env. Default mode: development. You should set mode in main.py. How to configure file:
+    - Remove .example from prod.env.example / .env.example
+    - Fill correct data into prod.env / .env
+    - If you use redis, add variables to prod.env / .env:
       `redis_host`, `redis_port`, `redis_db`.
 
 3) Configure system:
@@ -28,6 +28,12 @@
     - `source venv/bin/activate`
     - `pip install -r requirements.txt`
     - Execute `__main__.py` script
+6) It is highly recommended for deployment (Ubuntu / Debian):
+    - Configure app.service file.
+    - `cp systemd/app.service etc/systemd/system/`
+    - `sudo systemctl enable app.service`
+    - `sudo systemctl start app.service`
+    - Check status: `sudo systemctl status app.service`
 
 **If you launched bot polling, and no errors occurred, after submitting /start command to your Bot, welcome message
 should be sent.**
