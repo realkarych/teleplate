@@ -63,22 +63,21 @@ should be sent.**
 ## Contributions
 
 **Feel free to contribute! But if you integrate new technologies, you are responsible for the
-additions to the documentation (USAGE_GUIDE.md).**
+additions to the documentation (USAGE_GUIDE.md). So, I will not accept pull requests that will not pass code-style coverage (GitHub pylint CI tests).**
 
 ## Q&A
 
 - *Where I should store commands, reply | inline markups?* — **In navigation layer. I gave you a sample of commands
   storage, and you can do the same with markups.**
 - *How to add my handler's modules?* — **So easy. Go to handlers package and create your modules. You must realize
-  register_handlers() method that register all your message, callback_query and another handlers. DON'T forget submit
+  register_handlers() method that register all your -message, -callback_query and -another handlers in module. DON'T forget submit
   created modules to RegisterFactory in main.py**
 - *Why do you use Singleton? It's anti-pattern!* — **So, I used Singleton only with APScheduler. In my opinion,
   instance of Scheduler in big project will be used in different separated services / in different parts of
   business-logic.
   In this case, I preferred to put scheduler in a separate service instantiates on app-start. That is, you can create
-  tasks in
-  any services without thinking about the connections between the services. Therefore, at this stage I believe that this
-  is the best option.**
+  tasks in any service without thinking about the connections between them. Therefore, at this stage I believe that this
+  is a good implementation.**
 
 **So, if you have any problems with template, feel free to open issues on GitHub or ping me in Telegram:
 https://t.me/karych.**
