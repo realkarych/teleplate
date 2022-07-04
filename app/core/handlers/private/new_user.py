@@ -1,4 +1,5 @@
 from aiogram import types, Dispatcher
+from aiogram.types import ChatType
 
 from app.core.navigation.nav import Commands
 from app.messages import new_user as msgs
@@ -12,8 +13,8 @@ async def cmd_start(m: types.Message):
     session = UsersDB(db_session=m.bot.get("db"))
     await session.add_user(user)
 
-    await m.answer(msgs.welcome(user_firsname=user.firstname))
+    await m.answer(msgs.welcome(user_firsname=user.firstname), reply_markup=None)
 
 
 def register_handlers(dp: Dispatcher):
-    dp.register_message_handler(cmd_start, commands=str(Commands.start))
+    dp.register_message_handler(cmd_start, commands=str(Commands.start), chat_type=ChatType.PRIVATE)

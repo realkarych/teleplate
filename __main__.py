@@ -10,7 +10,7 @@ from sqlalchemy.orm import sessionmaker
 
 from app.config import load_config
 from app.core import middlewares
-from app.core.handlers import new_user
+from app.core.handlers.private import new_user
 from app.core.navigation.nav import Commands
 from app.core.updates_worker import get_handled_updates_list
 from app.services.database.base import Base
