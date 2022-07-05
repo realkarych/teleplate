@@ -17,7 +17,3 @@ class User(Base):
     def __repr__(self) -> str:
         return f"User: {self.user_id}, {self.username}, {self.user_firstname}, " \
                f"{self.user_fullname}, {self.registered_date}"
-
-    def __str__(self) -> str:
-        return f"User: {self.user_id}, {self.username}, {self.user_firstname}, " \
-               f"{self.user_fullname}, {self.registered_date}"

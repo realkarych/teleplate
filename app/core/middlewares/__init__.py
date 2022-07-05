@@ -6,4 +6,4 @@ from app.core.middlewares.throttling import ThrottlingMiddleware
 def setup(dispatcher: Dispatcher):
     """Setup middlewares with given dispatcher"""
 
-    dispatcher.middleware.setup(ThrottlingMiddleware())
+    dispatcher.middleware.setup(ThrottlingMiddleware(rate_limit=1))

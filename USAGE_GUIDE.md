@@ -5,7 +5,9 @@
 1) Create repo by this template
 
 2) Configure bot settings. Bot has 2 modes: **development**, **production**. On develop stage, use .env, on prod stage
-   use prod.env. This modes added for effective development. In my case, I has a temporary test bot for development on local machine (configures in .env), and production bot that starts on server & configures in prod.env. Default mode: development. You should set mode in main.py. How to configure file:
+   use prod.env. This modes added for effective development. In my case, I has a temporary test bot for development on
+   local machine (configures in .env), and production bot that starts on server & configures in prod.env. Default mode:
+   development. You should set mode in main.py. How to configure file:
     - Remove .example from prod.env.example / .env.example
     - Fill correct data into prod.env / .env
     - If you use redis, add variables to prod.env / .env:
@@ -68,14 +70,16 @@ should be sent.**
 ## Contributions
 
 **Feel free to contribute! But if you integrate new technologies, you are responsible for the
-additions to the documentation (USAGE_GUIDE.md). So, I will not accept pull requests that will not pass code-style coverage (GitHub pylint CI tests).**
+additions to the documentation (USAGE_GUIDE.md). So, I will not accept pull requests that will not pass code-style
+coverage (GitHub pylint CI tests).**
 
 ## Q&A
 
 - *Where I should store commands, reply | inline markups?* — **In navigation layer. I gave you a sample of commands
   storage, and you can do the same with markups.**
 - *How to add my handler's modules?* — **So easy. Go to handlers package and create your modules. You must realize
-  register_handlers() method that register all your -message, -callback_query and -another handlers in module. DON'T forget submit
+  register_handlers() method that register all your -message, -callback_query and -another handlers in module. DON'T
+  forget submit
   created modules to RegisterFactory in main.py**
 - *Why do you use Singleton? It's anti-pattern!* — **So, I used Singleton only with APScheduler. In my opinion,
   instance of Scheduler in big project will be used in different separated services / in different parts of

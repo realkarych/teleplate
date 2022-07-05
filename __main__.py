@@ -1,8 +1,8 @@
 import asyncio
+import logging
 import types
 
 import tzlocal
-import logging
 from aiogram import Bot, Dispatcher
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.types.bot_command_scope import BotCommandScopeDefault
@@ -50,10 +50,16 @@ async def _set_bot_commands(bot: Bot) -> None:
     await bot.set_my_commands(commands, scope=BotCommandScopeDefault())
 
 
+async def _init_scheduler() -> AsyncIOScheduler:
+    scheduler = AsyncIOScheduler(timezone=str(tzlocal.get_localzone()))
+    scheduler.start()
+    return scheduler
+
+
 async def _register_schedulers() -> None:
     """Init schedulers by APScheduler instance"""
-    _scheduler = AsyncIOScheduler(timezone=str(tzlocal.get_localzone()))
-    _scheduler.start()
+
+    await _init_scheduler()
 
 
 async def main() -> None:
