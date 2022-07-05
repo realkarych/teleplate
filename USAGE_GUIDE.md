@@ -48,7 +48,6 @@ should be sent.**
   configured for this.
 - **PostgreSQL** (SQLAlchemy + asyncpg + alembic).
 - **Systemd** (You can replace it with Docker).
-- **Loguru** as logging impl.
 - **APScheduler** as fully async cron tasks manager (I use it in almost projects, and therefore decided to include it
   to.
   template too).

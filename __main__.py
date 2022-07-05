@@ -1,10 +1,12 @@
 import asyncio
 import types
 
+import tzlocal
+import logging
 from aiogram import Bot, Dispatcher
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.types.bot_command_scope import BotCommandScopeDefault
-from loguru import logger
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker
 
@@ -14,7 +16,6 @@ from app.core.handlers.private import new_user
 from app.core.navigation.nav import Commands
 from app.core.updates_worker import get_handled_updates_list
 from app.services.database.base import Base
-from app.services.schedule.scheduler import Scheduler
 from app.settings.app import AppSettings
 from app.settings.base import AppEnvTypes
 
@@ -34,12 +35,12 @@ class HandlersFactory:
                 try:
                     handler.register_handlers(self._dp)
                 except AttributeError as error:
-                    logger.error(f"register_handlers() method wasn't implemented "
-                                 f"in {str(error.obj)}")
+                    logging.error(f"register_handlers() method wasn't implemented "
+                                  f"in {str(error.obj)}")
 
             else:
-                logger.error(f"{handler} from submitted args to `register_handlers()` "
-                             f"is not a .py module")
+                logging.error(f"{handler} from submitted args to `register_handlers()` "
+                              f"is not a .py module")
 
 
 async def _set_bot_commands(bot: Bot) -> None:
@@ -49,14 +50,20 @@ async def _set_bot_commands(bot: Bot) -> None:
     await bot.set_my_commands(commands, scope=BotCommandScopeDefault())
 
 
-def _register_schedulers() -> None:
-    """Init schedulers by APScheduler singleton instance"""
+async def _register_schedulers() -> None:
+    """Init schedulers by APScheduler instance"""
+    _scheduler = AsyncIOScheduler(timezone=str(tzlocal.get_localzone()))
+    _scheduler.start()
 
 
 async def main() -> None:
-    """Method that starts app & polling"""
+    """
+    Starts app & polling
+    """
 
-    logger.add("app.log", rotation="500 MB")
+    logging.basicConfig(level=logging.WARNING,
+                        format='%(asctime)s - %(levelname)s - %(name)s - %(message)s',
+                        filename="app.log")
 
     config: AppSettings = load_config(app_type=AppEnvTypes.DEV)
 
@@ -80,8 +87,7 @@ async def main() -> None:
 
     dp = Dispatcher(bot, storage=storage)
 
-    Scheduler()
-    _register_schedulers()
+    await _register_schedulers()
     await _set_bot_commands(bot)
 
     # Provide your handler-modules into `register(...) func`
@@ -97,8 +103,9 @@ async def main() -> None:
         await bot.session.close()
 
 
-try:
-    asyncio.run(main())
-except (KeyboardInterrupt, SystemExit):
-    # Log this is pointless
-    pass
+if __name__ == "__main__":
+    try:
+        asyncio.run(main())
+    except (KeyboardInterrupt, SystemExit):
+        # Log this is pointless
+        pass
