@@ -68,7 +68,7 @@ async def main() -> None:
     config: AppSettings = load_config(app_type=AppEnvTypes.DEV)
 
     engine = create_async_engine(
-        config.postgresql_uri,
+        config.db_uri,
         future=True
     )
     async with engine.begin() as conn:

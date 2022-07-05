@@ -9,24 +9,24 @@ class AppSettings(BaseAppSettings):
     token: str
     parse_mode: str = "HTML"
 
-    postgresql_host: str
-    postgresql_port: int
-    postgresql_username: str
-    postgresql_password: str
-    postgresql_name: str
-    postgresql_uri: str = None
+    db_host: str
+    db_port: int
+    db_username: str
+    db_password: str
+    db_name: str
+    db_uri: str = None
 
-    @validator("postgresql_uri", pre=True)
+    @validator("db_uri", pre=True)
     def assemble_database_uri(cls, v: Optional[str], values: Dict[str, Any]) -> Any:
         if isinstance(v, str):
             return v
         return PostgresDsn.build(
             scheme="postgresql+asyncpg",
-            user=values.get("postgresql_username"),
-            password=values.get("postgresql_password"),
-            host=values.get("postgresql_host"),
-            port=str(values.get("postgresql_port")),
-            path=f"/{values.get('postgresql_name') or ''}",
+            user=values.get("db_username"),
+            password=values.get("db_password"),
+            host=values.get("db_host"),
+            port=str(values.get("db_port")),
+            path=f"/{values.get('db_name') or ''}",
         )
 
     redis_host: Optional[str] = ""
