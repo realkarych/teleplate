@@ -35,12 +35,12 @@ class HandlersFactory:
                 try:
                     handler.register_handlers(self._dp)
                 except AttributeError as error:
-                    logging.error(f"register_handlers() method wasn't implemented "
-                                  f"in {str(error.obj)}")
+                    logging.error("register_handlers() method wasn't implemented "
+                                  "in %s", str(error.obj))
 
             else:
-                logging.error(f"{handler} from submitted args to `register_handlers()` "
-                              f"is not a .py module")
+                logging.error("%s from submitted args to `register_handlers()` "
+                              "is not a .py module", handler)
 
 
 async def _set_bot_commands(bot: Bot) -> None:
@@ -68,8 +68,7 @@ async def main() -> None:
     """
 
     logging.basicConfig(level=logging.WARNING,
-                        format='%(asctime)s - %(levelname)s - %(name)s - %(message)s',
-                        filename="app.log")
+                        format="%(asctime)s - %(levelname)s - %(name)s - %(message)s")
 
     config: AppSettings = load_config(app_type=AppEnvTypes.DEV)
 
